@@ -73,11 +73,7 @@ class ColumnInput(BaseModel):
     PaymentMethod: float
     Hour: float
     DayOfWeek: float
-    ClusterKMeans: int = None  # Ini bisa diabaikan saat prediksi
-    ClusterHC: int = None  # Ini bisa diabaikan saat prediksi
-    PCA1: float = None  # Ini bisa diabaikan saat prediksi
-    PCA2: float = None  # Ini bisa diabaikan saat prediksi
-
+   
 
 # Load model KMeans dan scaler yang sudah dilatih dengan 4 fitur
 with open("kmeans_model.pkl", "rb") as file:
@@ -87,7 +83,7 @@ with open("scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 # Fitur yang dipakai saat training (hanya 4 fitur)
-feature_columns = ["Total", "PaymentMethod", "Hour", "DayOfWeek", "ClusterKMeans", "ClusterHC", "PCA1", "PCA2"]
+feature_columns = ["Total", "PaymentMethod", "Hour", "DayOfWeek"]
 
 @app.post("/predict")
 def predict(input_data: ColumnInput):
@@ -97,13 +93,15 @@ def predict(input_data: ColumnInput):
 
         # Pilih hanya 4 fitur yang digunakan saat pelatihan
         features = input_df[feature_columns]
-        features = features[["Total", "PaymentMethod", "Hour", "DayOfWeek", "ClusterKMeans", "ClusterHC", "PCA1", "PCA2"]]
+        features = features[["Total", "PaymentMethod", "Hour", "DayOfWeek"]]
+        print(features)
 
         # Pastikan format input untuk prediksi sesuai (2D array)
         features_array = features.values  # Ini mengubah DataFrame ke numpy array 2D
 
         # Lakukan prediksi dengan model KMeans
         cluster = kmeans_model.predict(features_array)
+        print(cluster)
 
         # Return response yang jelas dan format JSON
         return {
@@ -114,5 +112,3 @@ def predict(input_data: ColumnInput):
     except Exception as e:
         # Tangani error dan kembalikan pesan error dalam format JSON
         return {"error": str(e)}
-
-```
