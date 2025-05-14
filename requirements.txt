@@ -2,4 +2,4 @@ fastapi[standard]
 pandas==2.2.2
 numpy==1.26.4
 scikit-learn==1.6.1
-pickle==4.0
+uvicorn
