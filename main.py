@@ -67,12 +67,4 @@ def home_root():
 # Contoh curl untuk menguji API
 # curl -X POST "http://
 # localhost:8000/predict" -H "Content-Type: application/json" -d '{"Total": 100, "PaymentMethod": 1, "Hour": 12, "DayOfWeek": 3}'
-
-
-@app.get("/deploy")
-def home_root():
-    return {"message": "Vercel Deployment Success"}
-# Menjalankan server FastAPI
-# Gunakan perintah berikut di terminal untuk menjalankan server:
-# uvicorn main:app --reload
 # Pastikan untuk menginstall FastAPI dan Uvicorn jika belum terinstall
